@@ -39,13 +39,13 @@ IoT devices can generate an extensive amount of data—where does it all go? The
 
 4. Finally, **analyze** the stored data to visualize trends and gain insights.
 
-![Data workflow](image-5.png)
+![Data workflow](Images/image-5.png)
 
 ## The solution Architecture
 
 The next diagram shown the solution proposed. Details of every steps of the data workflow process is explained in the chapters below.
 
-![Architecture](<iot project architecture v3 white bg.png>)
+![Architecture](<Images/iot project architecture v3 white bg.png>)
 
 ## Stage 1 and Stage 2: Collecting and Ingesting IoT Device Data
 
@@ -65,7 +65,7 @@ A briefly overview of **key components** of AWS IoT Core used in this project ar
 
 The next diagram resume the mentioned above:
 
-![Key component of IoT core](image-15.png)
+![Key component of IoT core](Images/image-15.png)
 
 The task of AWS IoT Message Broker is how IoT devices, clients and AWS IoT Core communicate. Devices send data by **publishing** a message on a topic. Clients receive messages by **subscribing** to a topic (The Publish/Subscribe Model).
 
@@ -78,11 +78,11 @@ The metrics simulated of the ice delivery truck were the following:
 3. Freezer Temperature
 4. Date/Time stamp
 
-![Truck sensors](image-7.png)
+![Truck sensors](Images/image-7.png)
 
 Using the SDK, a connection to **AWS IoT Core** is created to send data as a **messages** to a **topic**, through the **MQTT protocol**. The messages **published** on a topic are received by the topic's **subscribers**.
 
-![Collecting and ingesting the data](image-8.png)
+![Collecting and ingesting the data](Images/image-8.png)
 
 The picture above shown in a high level how the data is **collected** and then **ingested** by the IoT Core.
 
@@ -100,12 +100,12 @@ The *Connect device wizard* was used in the AWS Management Console to achieve th
 
 * Create a **thing type** and Add attributes to that thing type
 
-![Thing type](image-9.png)
+![Thing type](Images/image-9.png)
 
 * Create the **thing** representing the sensor and its **attributes**
 
-![Thing 1](image-10.png)
-![Thing 2](image-11.png)
+![Thing 1](Images/image-10.png)
+![Thing 2](Images/image-11.png)
 
 ### Step 3: Applying Security Certificates to a Thing and AWS IoT Policy
 
@@ -124,15 +124,15 @@ The device Authorization and Authentication consist briefly, as detailed next:
 
 The *connection kit* provided by the AWS Management Console when the thing was created is used. It provides the device **certificate**, **public key**, and **private key**, in addition to an initial script that can be used to test connectivity with AWS IoT Core. All of those files were placed in the dev environment.
 
-![Securing the device](image-12.png)
+![Securing the device](Images/image-12.png)
 
 Also, setting up the **AWS IoT policy** was done:
 
-![Policy](image-13.png)
+![Policy](Images/image-13.png)
 
 The JSON policy:
 
-![JSON policy](image-14.png)
+![JSON policy](Images/image-14.png)
 
 This AWS IoT policy JSON document contains two policy statements to allow actions of *iot:Connect* and *iot:Publish* for a single resource each.
 
@@ -189,8 +189,8 @@ The data in each message contain the following:
 
 Seeing these messages confirms that the communication between the device and AWS IoT Core is working, as shown the pictures below:
 
-![MQTT test client 1](image-6.png)
-![MQTT test client 2](image-36.png)
+![MQTT test client 1](Images/image-6.png)
+![MQTT test client 2](Images/image-36.png)
 
 ### Step 5: Adding rules to manage the traffic of messages
 
@@ -198,23 +198,23 @@ Seeing these messages confirms that the communication between the device and AWS
 
 ##### 1. Specify rule properties
 
-![Rules properties](image.png)
+![Rules properties](Images/image.png)
 
 ##### 2. Configure SQL statement
 
 This statement transforms and standardizes the data for temperature and voltage by using a decimal number format. The statement formats the door open or closed indicator as an integer, and it transforms the epoch time format into a more human-readable format.
 
-![Config SQL statement](image-1.png)
+![Config SQL statement](Images/image-1.png)
 
 ##### 3. Attach rule actions
 
-![Rules actions](image-2.png)
+![Rules actions](Images/image-2.png)
 
 ##### 4. Creating an IAM Role to the action
 
 An IAM Role is needed to giving permission access to IoT Core.
 
-![Action IAM Rule](image-37.png)
+![Action IAM Rule](Images/image-37.png)
 
 #### B. Checking the MQTT test messages running through a rule
 
@@ -222,7 +222,7 @@ An IAM Role is needed to giving permission access to IoT Core.
 
 Subscribing to the new topic created above linked to the *truckAnalyze* rule.
 
-![Subscribing to truck/analyze topic](image-3.png)
+![Subscribing to truck/analyze topic](Images/image-3.png)
 
 ##### 2. Checking the messages from the rule *truckAnalyze*
 
@@ -233,7 +233,7 @@ Verifying that the four data points that were included in the rule query stateme
 * The door (whether it's opened or closed)
 * A timestamp (converted from the epoch time format into a more human-readable value)
 
-![truck/analyze messages](image-4.png)
+![truck/analyze messages](Images/image-4.png)
 
 Finishing this step, conclude the implementation of the resources needed to Collect and Ingest the IoT data to AWS cloud.
 
@@ -249,19 +249,19 @@ This project uses Amazon TimeStream to storage the data generated by the truck s
 
 The next picture shown the dialog box displaying the parameters defined to create the database:
 
-![Creating the DB](image-17.png)
+![Creating the DB](Images/image-17.png)
 
 The database created was a *Standard DB*
 
-![Creating the DB](image-18.png)
+![Creating the DB](Images/image-18.png)
 
 #### b. Create the Table
 
 The next are the table configs used to create it:
 
-![Create table 1](image-19.png)
-![Create table 2](image-20.png)
-![Create table 3](image-21.png)
+![Create table 1](Images/image-19.png)
+![Create table 2](Images/image-20.png)
+![Create table 3](Images/image-21.png)
 
 ### Part 2: Creating a second rule action in AWS IoT core toward Amazon Timestream
 
@@ -271,26 +271,26 @@ It's time to transform and redirect the data to **Amazon Timestream**, adding a 
 
 Adding a new rule action to the rule *truckAnalyze* (created in the last stage) is shown in the next picture:
 
-![Creating second rule action](image-16.png)
+![Creating second rule action](Images/image-16.png)
 
 The IAM role (*TimeStream_IoTRules_role*) created to give permission to this action to access Timestream is the next:
 
-![TimeStream_IoTRules_role](image-38.png)
+![TimeStream_IoTRules_role](Images/image-38.png)
 
 The SQl statement, that perform some process of the raw data received from the truck sensors, was defined previously in the Stage 1-2, Step 5. Here is the defined statement:
 
-![Rule SQL statement](image-22.png)
+![Rule SQL statement](Images/image-22.png)
 
 An *Error action* is created as well, that will be executed when something goes wrong with processing the rule action, redirecting the messages to a new IoT Core Topic called *TimeStream_rule_error*.
 
-![Error action](image-23.png)
+![Error action](Images/image-23.png)
 
 #### B. Verifying TimeStream database
 
 Now, we could check if the data is going to TimeStream. In order to do that, a query is executed to check if TimeStream is receiving the data from IoT Core, using the built in *Query Editor* of TimeStream.
 
-![Query editor 1](image-24.png)
-![Query editor 2](image-25.png)
+![Query editor 1](Images/image-24.png)
+![Query editor 2](Images/image-25.png)
 
 ## Stage 4: Analyzing the data using a visualization-related AWS and third-party services
 
@@ -312,11 +312,11 @@ Before adding TimeStream as our data source, a plugin is needed to be installed.
 
 Now, we're going to load the TimeStream sensors data into Grafana. We add our TimeStream data source in the data source page, as shown the picture below:
 
-![Adding Grafana data source](image-26.png)
+![Adding Grafana data source](Images/image-26.png)
 
 Next, authentication configuration are done as shown as follow:
 
-![alt text](image-27.png)
+![alt text](Images/image-27.png)
 
 Specifying the IAM Access Keys is needed and the region where are located the resources. Also, *sensorDB* database, *truck01_sensors* table and a default measure must be choose as default macros.
 
@@ -330,7 +330,7 @@ A dashboard named *Truck01 sensors analytics* is created to show the metrics rec
 
 The picture below shown the created dashboard:
 
-![Grafana dashboard](image-28.png)
+![Grafana dashboard](Images/image-28.png)
 
 There are other capabilities of Grafana not shown here like creating Alerts when some metrics reach a specific value or range.
 
@@ -344,7 +344,7 @@ Like the configs done in Grafana, adding TimeStream database as data source is n
 
 The next picture shown the data source selection in QuickSight:
 
-![QuickSight data sources](image-29.png)
+![QuickSight data sources](Images/image-29.png)
 
 The *sampleDB* database is chosen.
 
@@ -352,29 +352,29 @@ The *sampleDB* database is chosen.
 
 To create the dashboard, in the home panel, choose the "New analysis" button:
 
-![New QuickSight analysis](image-30.png)
+![New QuickSight analysis](Images/image-30.png)
 
 Now select the *truck01_sensors* table:
 
-![Selecting table](image-31.png)
+![Selecting table](Images/image-31.png)
 
 Selecting the table shown some details of it. Here, press "USE IN ANALYSIS" button:
 
-![Using the table data for analysis](image-32.png)
+![Using the table data for analysis](Images/image-32.png)
 
 In the next dialog, just press "CREATE":
 
-![Create the analysis](image-33.png)
+![Create the analysis](Images/image-33.png)
 
 The dashboard created have just one visualization: a line chart showing the analysis of the entire dataset sent to IoT core from the IoT simulator:
 
-![QuickSight dashboard](image-34.png)
+![QuickSight dashboard](Images/image-34.png)
 
 Like the Time series visualization of Grafana, the line chart shown the 3 metrics obtained from the freezer truck: temperature (green line), voltage (yellow line) and door status (blue line)
 
 Analyzing the chart, is possible to conclude that the freezer device is not working properly after 15 minutes of reaching the working temperature of -18 °C. After that time, the temperature ascends until reaching the external temperature. Also, the voltage values shown that the working value is +/- 12 v. When the temperature start to ascend, the voltage value shown a little fall of 0.1 v (this fall is not clearly to see in the QuickSight dashboard due to the scale of the chart, but using the Grafana dashboard it is clearly noticeable in the picture below). Could be this the answer to the problem of the spoilage of this truck?
 
-![Grafana dashboard showing details](image-35.png)
+![Grafana dashboard showing details](Images/image-35.png)
 
 Also, looking at the stats cards is possible to notice the MAX voltage value is 12.1 v and the MIN value is 11.8 v.
 
@@ -383,3 +383,24 @@ Also, looking at the stats cards is possible to notice the MAX voltage value is 
 The request asked to our team about the solution to the problematic of the Ice cream Company spoilage occurring during the delivery of its products could be associated to an electrical issue due to a power starving (voltage) of the delivery truck freezer device. Further analysis of the rest of the delivery trucks must be done in order to establish a clear cause of the origin of the presented problem. Also, additional measures must be collected to analyze another causes that could be affecting the freezer operating temperature, like the external temperature: the problematic happen only in hot days?; and the GPS location of the trucks: temperature going out of range when the truck is stuck in traffic, at a specific customer site, or cross-docking at a service center?
 
 In other hand, long term analysis of gathered sensor data of the all delivery truck fleet could give insights and predictive analysis useful to improve the delivery process and business value.
+
+## References
+
+1. [Set up Amazon Linux 2 (AL2) in Windows Subsystem for Linux (WSL)](https://docs.aws.amazon.com/simspaceweaver/1.15/userguide/setting-up_local_wsl.html)
+
+2. [AmazonWSL](https://github.com/yosukes-dev/AmazonWSL)
+
+3. [AWS skill builder](https://skillbuilder.aws/)
+   1. [Getting Started with AWS IoT - Digital training](https://explore.skillbuilder.aws/learn/course/internal/view/elearning/11841/getting-started-with-aws-iot)
+   2. [Securely Connecting AWS IoT Devices to the Cloud - Digital training](https://explore.skillbuilder.aws/learn/course/15549/securely-connecting-aws-iot-devices-to-the-cloud)
+   3. [Handling AWS IoT Device Data and States - Digital training](https://explore.skillbuilder.aws/learn/course/15379/handling-aws-iot-device-data-and-states)
+   4. [Analyzing, Visualizing, and Gaining Insights from IoT Devices - Digital training](https://explore.skillbuilder.aws/learn/course/internal/view/elearning/15793/analyzing-visualizing-and-gaining-insights-from-iot-devices)
+   5. [Introduction to AWS Internet of Things (IoT) - Self-Paced Lab](https://explore.skillbuilder.aws/learn/course/internal/view/elearning/588/introduction-to-aws-internet-of-things-iot)
+
+4. [Unlocking Scalable IoT Analytics on AWS](https://aws.amazon.com/blogs/iot/unlocking-scalable-iot-analytics-on-aws)
+
+5. [Deleting your Amazon QuickSight subscription and closing the account](https://docs.aws.amazon.com/quicksight/latest/user/closing-account.html)
+
+6. [7 patterns for IoT data ingestion and visualization- How to decide what works best for your use case](https://aws.amazon.com/blogs/iot/7-patterns-for-iot-data-ingestion-and-visualization-how-to-decide-what-works-best-for-your-use-case/)
+
+7. AWS workshop studio - AWS IoT Immersion Day Workshop, Amazon Timestream and Grafana, [Lab 135 - Timestream and Grafana](https://catalog.us-east-1.prod.workshops.aws/workshops/d144e5b2-21e8-4378-8ca1-b4847a485dbd/en-US/amazon-timestream/lab135-timestreamandgrafana)
