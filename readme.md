@@ -6,6 +6,8 @@
 
 :rocket: **re/Start cohort**: CLSAN-21
 
+:mortar_board: **Instructor**: [Roberto Landa](https://www.linkedin.com/in/robertolanda395/) 
+
 :cloud: **AWS partner (collaborating organization)**: [Morris & Opazo](https://www.morrisopazo.com/es/inicio/nosotros/programa-aws-re-start/)
 
 ## Description
